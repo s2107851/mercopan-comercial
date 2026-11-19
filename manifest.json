@@ -1,0 +1,152 @@
+{
+  "producto": "Mercopan Comercial",
+  "version": "0.1.0",
+  "fecha": "2026-11-18",
+  "estado": "Desarrollo funcional; pendiente instalación e integración con MySQL y aceptación en Mercopan",
+  "pruebas": {
+    "php_sintaxis": "OK",
+    "javascript_sintaxis": "OK",
+    "unitarias_sin_mysql": "OK",
+    "ocr_en_imagen_sintetica": "OK",
+    "mysql_real": "NO PROBADO",
+    "pantallas_tactiles_reales": "NO PROBADO"
+  },
+  "archivos": [
+    {
+      "ruta": ".gitignore",
+      "sha256": "ed85b14524f79192ee512ecd67ae76588d73d328aac0f382ff8553e2fe817650"
+    },
+    {
+      "ruta": "README.md",
+      "sha256": "4a0785bb80d4d9c785fda496bf5bcccc0e58286bb94225e70c3fc619de954c42"
+    },
+    {
+      "ruta": "app/.htaccess",
+      "sha256": "fa28d421a28ed9b6f4b997d5119c2b8adbacff6e2dd119a179b71230f9664934"
+    },
+    {
+      "ruta": "app/admin_service.php",
+      "sha256": "7973a1c65487c001438377d1b575428ca802a9f4d0db1e263847050ee843c236"
+    },
+    {
+      "ruta": "app/admin_view.php",
+      "sha256": "06e94b34095fc51d16176e099f4b34bc9e9eb9abb857d101b2300036b23adbda"
+    },
+    {
+      "ruta": "app/bootstrap.php",
+      "sha256": "a61a8d795746278c1f67b6004be2a17133548a804a7d9c8e8c4602b7082de908"
+    },
+    {
+      "ruta": "app/config.local.example.php",
+      "sha256": "320772497bce4c3af23f089abf403e007222cedc690f4185217dede84882f92c"
+    },
+    {
+      "ruta": "app/config.php",
+      "sha256": "e4b0644c182291949c8bcd98884adda571896e7e3c931d61d3eb9c4120ce32cf"
+    },
+    {
+      "ruta": "app/core.php",
+      "sha256": "313c2f0982c86ce88d67f8532251dd5667c308f8e856af12f0bf19ee63a6fbd2"
+    },
+    {
+      "ruta": "app/inventory.php",
+      "sha256": "63c7565efe7b550f47e78ed53114f3ea14ca84cf9ba768b8e4be2f483e2ec1b2"
+    },
+    {
+      "ruta": "app/ocr.php",
+      "sha256": "eb4f241e5767d6bdd24171442ccb8550d843f61f1e9998b8a16d89236e37a542"
+    },
+    {
+      "ruta": "app/reports.php",
+      "sha256": "b1715a7622affe097ebcc18e5502c2afae2b0d14d8b0700203cc783b4e87efdc"
+    },
+    {
+      "ruta": "app/terminal_view.php",
+      "sha256": "1112391636f15ba4d453e7f650cec935315887afc9ccdcb8d7ed1136e6ca5190"
+    },
+    {
+      "ruta": "database/.htaccess",
+      "sha256": "fa28d421a28ed9b6f4b997d5119c2b8adbacff6e2dd119a179b71230f9664934"
+    },
+    {
+      "ruta": "database/001_schema.sql",
+      "sha256": "9398afe0673c342629cdc6c529068125ae7526d41532cfada3e3ae2ce3473870"
+    },
+    {
+      "ruta": "database/002_demo_SOLO_PRUEBAS.sql",
+      "sha256": "68f7d768a0eef025bbaab6733583abea0ce5201819f3ff74b704305bde5ae637"
+    },
+    {
+      "ruta": "docs/.htaccess",
+      "sha256": "fa28d421a28ed9b6f4b997d5119c2b8adbacff6e2dd119a179b71230f9664934"
+    },
+    {
+      "ruta": "docs/BASE_TECNICA.md",
+      "sha256": "c7d37fd1effba35785e326f4bd3a20545cd406a4b6a161ebc7434c78e30e61b7"
+    },
+    {
+      "ruta": "docs/ESPECIFICACION_ORIGINAL.txt",
+      "sha256": "47a73d354248ad91c43960df123c0cb5c5a1c4fbbc3898fcb25f4ca256e3c134"
+    },
+    {
+      "ruta": "docs/ESTADO_FUNCIONAL.md",
+      "sha256": "1d3f872b1546499eb233b849baf000aa3e957a40e491eb510655cc3a513bd810"
+    },
+    {
+      "ruta": "docs/INSTALACION.md",
+      "sha256": "8f48ae15b935ef9b7d9035b2b18850c43325c9b19fd375413248bb0f68bf0ff5"
+    },
+    {
+      "ruta": "docs/PRUEBAS_ACEPTACION.md",
+      "sha256": "b019654b7461591c4970269d116e9348ca125032c336dfd5a70bd47913e80dec"
+    },
+    {
+      "ruta": "public/admin/index.php",
+      "sha256": "2fd1efb7dd0196871867737065e3a51dd45d5d4226819e9f6a285e2ae90b032e"
+    },
+    {
+      "ruta": "public/assets/admin.js",
+      "sha256": "6b8c2fdea6468eb2f6209506d258fe144aeb744fd055444bf81f1c0d3ee7a601"
+    },
+    {
+      "ruta": "public/assets/estilos.css",
+      "sha256": "02b84afcb82c7b07ce40818b542c6e599f24766bd0ab175b644a1afc63839cb5"
+    },
+    {
+      "ruta": "public/assets/terminal.js",
+      "sha256": "82f3fd8ebc6d21653bf1be390b548fa3de3d2e70937630bf3022a7c4d0258fc0"
+    },
+    {
+      "ruta": "public/deposito/api.php",
+      "sha256": "a1076af6a7601a3402adbaac9e56c961f5793a2644fedf25bdd14943b297cce0"
+    },
+    {
+      "ruta": "public/deposito/index.php",
+      "sha256": "5a51e0bf09170d5936c667a5060a11d072306dce2397f516f84c676d595b8993"
+    },
+    {
+      "ruta": "public/mostrador/api.php",
+      "sha256": "d0e5506ef3e44347a8b404a9dddcce2f58200751a7a1f89cfe700c78ab4e691b"
+    },
+    {
+      "ruta": "public/mostrador/index.php",
+      "sha256": "4f67070c08f754e67f5f0aa802baad8888e6fa23e61addf2c61408274f2634ee"
+    },
+    {
+      "ruta": "storage/.htaccess",
+      "sha256": "fa28d421a28ed9b6f4b997d5119c2b8adbacff6e2dd119a179b71230f9664934"
+    },
+    {
+      "ruta": "storage/facturas/.htaccess",
+      "sha256": "fa28d421a28ed9b6f4b997d5119c2b8adbacff6e2dd119a179b71230f9664934"
+    },
+    {
+      "ruta": "tests/.htaccess",
+      "sha256": "fa28d421a28ed9b6f4b997d5119c2b8adbacff6e2dd119a179b71230f9664934"
+    },
+    {
+      "ruta": "tests/unit.php",
+      "sha256": "8435820d974fa898ca045d53e59fa8e02839244c7592950a979b4be5edca5a2e"
+    }
+  ]
+}

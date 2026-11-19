@@ -1,0 +1,390 @@
+# PROYECTO MERCOPAN — SISTEMA INTEGRAL DE GESTIÓN DE PANADERÍA
+
+## 1. Tu rol
+
+Actuá como un equipo profesional de desarrollo de software compuesto por:
+
+- Desarrollador Full Stack senior.
+- Especialista en PHP y MySQL.
+- Arquitecto de bases de datos.
+- Diseñador de interfaces UI/UX.
+- Especialista en sistemas de gestión empresarial.
+- Analista de datos e inteligencia empresarial.
+
+Tu objetivo es retomar, modificar, mejorar y completar el proyecto existente de gestión empresarial para la panadería Mercopan, ubicada en Salto, Uruguay.
+
+No quiero solamente una propuesta de desarrollo. Quiero un sistema real, funcional, optimizado y preparado para utilizarse dentro de la empresa.
+
+Antes de comenzar, analizá todos los archivos existentes del proyecto, identificá las funcionalidades implementadas y conservá todo aquello que siga siendo útil. No desarrolles nuevamente desde cero funcionalidades que ya funcionan correctamente.
+
+## 2. Objetivo general
+
+Desarrollar un sistema que permita realizar un seguimiento integral de los movimientos de mercadería dentro de la panadería, desde la compra de materia prima hasta la venta o descarte del producto final.
+
+El sistema debe dividirse en tres interfaces completamente independientes:
+
+- Sistema de retiro de depósito.
+- Sistema de registro de ventas y descartes.
+- Sistema de administración general.
+
+Estas interfaces no deben estar conectadas entre sí mediante botones, menús o enlaces de navegación. Sin embargo, deben compartir una misma base de datos y lógica de negocio, permitiendo que toda la información esté sincronizada.
+
+Cada sector de la panadería tendrá acceso directo a la interfaz que le corresponda.
+
+## 3. Sistema de retiro de depósito
+
+Este apartado estará instalado en una pantalla táctil ubicada en el sector de depósito de la panadería.
+
+Los empleados utilizarán esta pantalla mientras trabajan, por lo que frecuentemente tendrán las manos sucias de harina, grasa u otros ingredientes.
+
+Por este motivo, la prioridad absoluta debe ser la simplicidad y rapidez de interacción.
+
+### Diseño de la interfaz
+
+- Botonera con botones grandes.
+- Iconos o imágenes representativas de cada ingrediente.
+- Nombres fácilmente legibles.
+- Aprovechamiento completo de la pantalla.
+- Diseño adaptado a pantallas táctiles.
+- Alto contraste.
+- Ausencia de elementos visuales innecesarios.
+- Evitar el uso del teclado.
+- Evitar menús desplegables y formularios complejos.
+- Mantener los productos más utilizados en posiciones fácilmente accesibles.
+
+### Funcionamiento
+
+El objetivo es registrar un retiro habitual en un máximo de dos o tres toques.
+
+Ejemplo:
+
+1. El empleado selecciona harina.
+2. Selecciona la cantidad mediante botones preestablecidos.
+3. Confirma el retiro.
+
+El sistema registra automáticamente el movimiento y descuenta la cantidad correspondiente del stock del depósito.
+
+Permitir configurar cantidades frecuentes para cada ingrediente.
+
+Por ejemplo:
+
+**Harina:**
+- 1 kg.
+- 5 kg.
+- 10 kg.
+- 25 kg.
+
+**Huevos:**
+- 6 unidades.
+- 12 unidades.
+- 30 unidades.
+
+**Aceite:**
+- 500 ml.
+- 1 litro.
+- 5 litros.
+
+También debe existir una opción secundaria para introducir cantidades personalizadas.
+
+Cada movimiento debe registrar:
+
+- Ingrediente retirado.
+- Cantidad.
+- Unidad de medida.
+- Fecha y hora.
+- Empleado responsable.
+- Tipo de movimiento.
+
+Luego del registro, mostrar una confirmación visual breve y regresar automáticamente a la botonera principal.
+
+Evitar registros duplicados por pulsaciones accidentales e incorporar una opción rápida para corregir el último movimiento.
+
+## 4. Sistema de ventas y descartes
+
+Este apartado deberá seguir la misma filosofía de diseño que el sistema de retiro de depósito.
+
+Estará destinado a los empleados encargados de la venta de productos elaborados.
+
+Debe permitir registrar rápidamente tanto los productos vendidos como aquellos que deban descartarse.
+
+### Interfaz
+
+Utilizar una botonera táctil con imágenes, nombres y categorías de productos.
+
+Por ejemplo:
+
+- Bizcochos.
+- Pan francés.
+- Pan flauta.
+- Pan integral.
+- Medialunas.
+- Tortas.
+- Masas.
+- Sándwiches.
+- Productos de confitería.
+
+Estos productos son ejemplos. El catálogo real deberá conservarse del proyecto existente o configurarse desde administración.
+
+### Registro de venta
+
+El flujo debe ser lo más breve posible:
+
+1. Seleccionar el producto.
+2. Seleccionar la cantidad.
+3. Registrar la venta.
+
+Permitir cantidades preestablecidas según el producto y sus unidades de comercialización.
+
+El sistema deberá descontar automáticamente la cantidad vendida del stock de productos terminados y registrar los ingresos correspondientes cuando exista un precio configurado.
+
+### Registro de descarte
+
+Incorporar una opción claramente diferenciada para registrar productos descartados.
+
+Los motivos podrán incluir:
+
+- Producto vencido.
+- Producto sin vender.
+- Error de elaboración.
+- Producto quemado.
+- Producto dañado.
+- Otros motivos.
+
+El registro debe ser rápido, utilizando motivos preestablecidos y evitando la escritura manual siempre que sea posible.
+
+Los productos descartados deberán descontarse del stock disponible, pero no deberán contabilizarse como ventas ni generar ingresos.
+
+El sistema deberá registrar su costo estimado cuando se disponga de información suficiente, para que la administración pueda analizar las pérdidas económicas.
+
+Este apartado está destinado al control interno de ventas. No sustituir ni eliminar sistemas de facturación existentes sin autorización.
+
+## 5. Sistema de administración general
+
+Este apartado deberá conservar y mejorar las funcionalidades desarrolladas anteriormente en el proyecto.
+
+A diferencia de las interfaces táctiles, deberá contar con herramientas completas de gestión, configuración, seguimiento y análisis.
+
+### Módulos administrativos
+
+- Panel de control.
+- Gestión de facturas.
+- Gestión de proveedores.
+- Gestión de materia prima.
+- Control de stock.
+- Historial de retiros del depósito.
+- Gestión de producción.
+- Gestión de recetas.
+- Gestión de productos.
+- Historial de ventas.
+- Historial de descartes.
+- Gestión de empleados.
+- Estadísticas.
+- Reportes.
+- Configuración general.
+
+### Gestión de facturas
+
+Conservar como prioridad una de las funcionalidades principales solicitadas por el dueño de la panadería: la digitalización de facturas de proveedores.
+
+El sistema deberá permitir:
+
+- Escanear o fotografiar una factura.
+- Cargar imágenes y documentos PDF.
+- Utilizar reconocimiento óptico de caracteres (OCR).
+- Extraer automáticamente los datos disponibles.
+- Identificar proveedores.
+- Detectar productos, cantidades, precios y totales.
+- Revisar y corregir manualmente los datos antes de guardarlos.
+- Vincular los productos de la factura con los ingredientes existentes.
+- Actualizar el stock al confirmar la entrada efectiva de mercadería.
+- Consultar facturas anteriores.
+- Detectar posibles facturas duplicadas.
+
+Nunca guardar automáticamente una factura reconocida sin permitir previamente su revisión.
+
+### Gestión de producción
+
+Permitir registrar los productos elaborados y sus cantidades.
+
+Incorporar un sistema configurable de recetas que relacione cada producto elaborado con sus ingredientes.
+
+Por ejemplo, una receta podría establecer qué cantidades de harina, agua, levadura y sal son necesarias para elaborar cierta cantidad de panes.
+
+El sistema deberá calcular el consumo teórico de ingredientes, los costos de elaboración y el rendimiento de cada receta.
+
+Diferenciar el retiro de ingredientes del depósito de su consumo efectivo en producción, evitando descontar dos veces la misma materia prima.
+
+Los productos elaborados deberán incorporarse automáticamente al stock de productos terminados.
+
+## 6. Sistema de estadísticas e inteligencia empresarial
+
+Desarrollar un panel administrativo moderno e interactivo que permita visualizar el rendimiento de la panadería y facilite la toma de decisiones comerciales.
+
+### Indicadores principales
+
+- Ventas diarias, semanales, mensuales y anuales.
+- Ingresos registrados.
+- Gastos en materia prima.
+- Costos estimados de producción.
+- Rentabilidad bruta estimada.
+- Cantidad de productos elaborados.
+- Cantidad de productos vendidos.
+- Cantidad de productos descartados.
+- Pérdidas económicas estimadas.
+- Ingredientes más utilizados.
+- Valor estimado del inventario.
+
+### Gráficas y visualizaciones
+
+Incorporar gráficas dinámicas utilizando Chart.js o una tecnología equivalente.
+
+Incluir:
+
+- Evolución de las ventas.
+- Evolución de las compras.
+- Comparación entre producción y ventas.
+- Comparación entre ingresos y gastos.
+- Ranking de productos más vendidos.
+- Ranking de productos menos vendidos.
+- Ranking de productos más elaborados.
+- Productos con mayor porcentaje de desperdicio.
+- Distribución de gastos por proveedor.
+- Consumo de materia prima.
+- Días de la semana con mayores ventas.
+- Horarios de mayor demanda.
+
+Permitir filtrar las estadísticas por producto, categoría y rango de fechas.
+
+### Sistema de recomendaciones inteligentes
+
+El sistema deberá utilizar los datos históricos para generar recomendaciones que ayuden al dueño a optimizar la producción y reducir pérdidas.
+
+Por ejemplo:
+
+- Se está produciendo más pan del que se vende.
+- Determinado producto tiene una demanda creciente.
+- Los sábados se venden más bizcochos que los lunes.
+- Determinado producto presenta un porcentaje elevado de desperdicio.
+- El precio de compra de un ingrediente aumentó significativamente.
+- Un ingrediente podría agotarse próximamente según el consumo histórico.
+
+Cuando existan suficientes datos, generar sugerencias sobre las cantidades que convendría elaborar.
+
+Estas recomendaciones deben basarse en cálculos reales, estadísticas y tendencias históricas. No inventar resultados ni realizar predicciones cuando no exista suficiente información.
+
+## 7. Trazabilidad integral
+
+Uno de los objetivos más importantes del sistema es poder realizar un seguimiento de todos los movimientos de mercadería dentro de la empresa.
+
+El ciclo completo deberá contemplar:
+
+Compra → Depósito → Retiro → Elaboración → Stock de productos terminados → Venta o descarte.
+
+Todos los movimientos deberán estar relacionados mediante la base de datos.
+
+La administración deberá poder conocer:
+
+- Qué se compró.
+- Cuándo se compró.
+- A qué proveedor se compró.
+- Cuánto costó.
+- Qué se retiró del depósito.
+- Quién realizó el retiro.
+- Qué se elaboró.
+- Cuánto se elaboró.
+- Qué se vendió.
+- Qué se descartó.
+- Cuánto stock queda.
+- Cuánto dinero se destinó a producción.
+- Cuánto dinero se perdió por desperdicios.
+
+Implementar un historial auditable de movimientos y permitir corregir errores sin eliminar el registro histórico original.
+
+## 8. Identificación de empleados
+
+Respetar la decisión anterior de eliminar el inicio de sesión tradicional.
+
+No exigir usuario y contraseña para cada operación.
+
+Sin embargo, conservar el registro del empleado responsable de cada acción.
+
+Implementar un mecanismo de identificación rápida, como seleccionar al empleado al comienzo de un turno y mantenerlo seleccionado hasta que otro empleado utilice la pantalla.
+
+Mostrar claramente quién está siendo registrado como responsable y permitir cambiarlo fácilmente.
+
+Mantener las interfaces operativas separadas de la administrativa. Proteger el acceso administrativo mediante medidas apropiadas para la instalación, sin reintroducir innecesariamente un inicio de sesión en las pantallas táctiles.
+
+## 9. Identidad visual
+
+Mantener una identidad visual relacionada con Mercopan.
+
+Colores principales:
+
+- Azul.
+- Amarillo.
+- Blanco.
+
+El apartado administrativo deberá tener una apariencia profesional, moderna y empresarial.
+
+Los apartados de depósito y ventas deberán tener una apariencia minimalista, intuitiva y funcional, similar a las terminales táctiles utilizadas en comercios y restaurantes.
+
+Priorizar la experiencia de usuario por encima de los elementos decorativos.
+
+Incorporar animaciones suaves, confirmaciones visuales, iconografía consistente y diseños adaptables a diferentes resoluciones.
+
+Configurar la moneda en pesos uruguayos (UYU), el idioma en español y la zona horaria correspondiente a Uruguay.
+
+## 10. Requisitos técnicos
+
+Mantener preferentemente las tecnologías originales del proyecto:
+
+- PHP.
+- MySQL.
+- HTML.
+- CSS.
+- JavaScript.
+- AJAX o Fetch API.
+- Chart.js para estadísticas.
+
+El sistema deberá contar con:
+
+- Arquitectura modular.
+- Código organizado y mantenible.
+- Consultas preparadas.
+- Validación de datos.
+- Transacciones de base de datos.
+- Protección contra inyección SQL.
+- Prevención de movimientos duplicados.
+- Control de consistencia del inventario.
+- Manejo de errores.
+- Copias de seguridad.
+- Actualización sincronizada entre dispositivos.
+- Compatibilidad con múltiples terminales conectadas simultáneamente.
+- Posibilidad de funcionamiento dentro de una red local.
+
+Las tres interfaces deberán tener sus propias rutas de acceso, pero compartir el mismo backend y base de datos.
+
+No eliminar información existente al modificar la estructura de la base de datos. Implementar las migraciones necesarias.
+
+## 11. Proceso de desarrollo y entrega
+
+Antes de finalizar el proyecto:
+
+1. Analizar el código existente.
+2. Identificar funcionalidades completas, incompletas y pendientes.
+3. Reorganizar la arquitectura.
+4. Diseñar las tres interfaces independientes.
+5. Implementar las funcionalidades solicitadas.
+6. Integrar todos los módulos mediante la base de datos.
+7. Comprobar la consistencia del stock.
+8. Realizar pruebas de funcionamiento.
+9. Corregir errores.
+10. Documentar la instalación y configuración.
+
+Entregar el código fuente completo, la base de datos, los scripts de instalación, las instrucciones para conectar las diferentes terminales y una guía de utilización.
+
+Incluir datos de demostración separados de los datos reales de la empresa para facilitar las pruebas.
+
+No dejar botones sin funcionamiento, estadísticas ficticias, funcionalidades simuladas ni módulos que solamente tengan una interfaz visual.
+
+El objetivo final es desarrollar un producto comercial que pueda instalarse y utilizarse diariamente en Mercopan, que aporte valor real a la empresa y que permita incorporar nuevas funcionalidades en el futuro.

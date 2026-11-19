@@ -1,0 +1,44 @@
+# Datos privados del servidor (NUNCA versionar)
+/app/config.local.php
+**/config.local.php
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Archivos subidos / generados por el sistema
+/storage/**
+!/storage/.gitkeep
+/public/uploads/**
+!/public/uploads/.gitkeep
+/uploads/**
+/logs/
+/tmp/
+/cache/
+
+# Respaldos con información real (NO ignorar esquema ni migraciones de database/)
+*backup*.sql
+*respaldo*.sql
+*dump*.sql
+*_export.sql
+*.sql.gz
+*.sql.zip
+*.bak
+*.old
+*.zip
+
+# Dependencias instaladas y ambiente local
+/vendor/
+/node_modules/
+/.idea/
+/.vscode/
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+
+# No incluir archivos de configuración de Apache/XAMPP del equipo
+php_errorlog
