@@ -1,5 +1,14 @@
 # MERCOPAN — Sistema comercial de gestión interna
 
+## Instalación automática en Windows con XAMPP
+
+1. Poné la carpeta del proyecto directamente dentro de `htdocs` y arrancá Apache y MySQL.
+2. En la PC principal, hacé doble clic en **Instalar-Mercopan.cmd**. Ingresá la clave de root de MySQL (Enter si está vacía) y elegí la contraseña de Administración.
+3. Abrí la dirección de Administración que aparece al finalizar y creá el primer empleado. Para otra computadora del mismo Wi-Fi, usá la dirección de Depósito o Mostrador que muestra el instalador. Las direcciones suponen Apache en el puerto 80.
+
+El instalador usa el puerto local de MySQL de XAMPP, crea las tablas y genera credenciales propias para Mercopan. La base empieza vacía. Si ya hay una instalación configurada, comprueba la conexión. Si encuentra una base previa sin su configuración, se detiene para conservar los datos. Los requisitos de OCR se detallan en la guía de instalación.
+
+
 **Edición de desarrollo 0.1 · 18/11/2026 · Salto, Uruguay**
 
 Aplicación web en español para **depósito**, **mostrador (ventas y descartes)** y **administración**, con un único backend PHP/MySQL y tres entradas independientes. El proyecto comercial **no comparte base de datos** con el proyecto académico de UTU.

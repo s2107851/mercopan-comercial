@@ -1,6 +1,6 @@
 # Próximo cambio técnico: instalación sencilla
 
-**Estado: pendiente.** Este kit crea el repositorio y documenta la prueba en red. No reemplaza ni modifica el código PHP actual.
+La instalación por consola para Windows/XAMPP está incorporada. Ver [Instalación automática](INSTALACION.md). A continuación se conserva el diseño original.
 
 ## Objetivo
 

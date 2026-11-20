@@ -42,3 +42,5 @@ Thumbs.db
 
 # No incluir archivos de configuración de Apache/XAMPP del equipo
 php_errorlog
+
+/app/instalacion-pendiente.php
