@@ -28,13 +28,14 @@ function comprobarBaseExistente(PDO $db, string $schema): void {
     }
 }
 
-function instalar(): void {
+function instalar(string &$paso): void {
     $configPath = __DIR__.'/config.local.php';
     $pending = __DIR__.'/instalacion-pendiente.php';
     if (is_file($configPath)) {
         require __DIR__.'/config.php';
         $GLOBALS['config'] = $config;
         require __DIR__.'/core.php';
+        $paso = 'verificar la conexion guardada';
         sql('SELECT id FROM empleados LIMIT 1');
         echo "Mercopan ya esta configurado y se pudo conectar.\n";
         return;
@@ -47,7 +48,9 @@ function instalar(): void {
     $port = filter_var(getenv('MERCOPAN_PORT') ?: 3306,FILTER_VALIDATE_INT,['options'=>['min_range'=>1,'max_range'=>65535]]);
     if (!$port) throw new RuntimeException('Puerto MySQL incorrecto.');
     $dsn = "mysql:host=127.0.0.1;port=$port;charset=utf8mb4";
+    $paso = 'conectar con root al puerto local '.$port;
     $db = new PDO($dsn,'root',(string)getenv('MERCOPAN_SQL'),[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION]);
+    $paso = 'comprobar la base existente';
     if ((int)$db->query("SELECT GET_LOCK('mercopan_comercial_instalar',0)")->fetchColumn()!==1) throw new RuntimeException('Ya hay otra instalacion en curso.');
     if (is_file($configPath)) throw new RuntimeException('La instalacion ya se completo.');
     $schema = file_get_contents(dirname(__DIR__).'/database/001_schema.sql');
@@ -56,6 +59,7 @@ function instalar(): void {
     umask(0077);
     $reanudar = is_file($pending);
     if (!$reanudar) {
+        $paso = 'comparar las tablas con el esquema de Mercopan';
         if ($exists) comprobarBaseExistente($db, $schema);
         $cfg = require __DIR__.'/config.local.example.php';
         $cfg['db_user'] = 'mp_'.bin2hex(random_bytes(8));
@@ -73,23 +77,29 @@ function instalar(): void {
     $reusar = $cfg['reusar_base'] ?? false;
     if ($reusar) {
         if (!$exists) throw new RuntimeException('Ya no se encuentra la base que se iba a conectar.');
+        $paso = 'validar la estructura existente';
         if ($reanudar) comprobarBaseExistente($db, $schema);
     } elseif ($exists) {
         $q=$db->prepare("SELECT 1 FROM information_schema.tables WHERE table_schema='mercopan_comercial' AND table_name=?");
         $q->execute([$marker]);
         if (!$q->fetchColumn()) throw new RuntimeException('La base existente no pertenece a esta instalacion. Se requiere revision manual.');
     } else {
+        $paso = 'crear la base de Mercopan';
         $db->exec('CREATE DATABASE mercopan_comercial CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
         $db->exec("CREATE TABLE mercopan_comercial.`$marker` (id INT PRIMARY KEY) ENGINE=InnoDB");
     }
     if (!$reusar) {
+        $paso = 'importar las tablas';
         $import = $db->query($schema);
         while ($import->nextRowset()) { /* Consumir todos los resultados del esquema. */ }
         $import->closeCursor();
     }
     $account=$db->quote($cfg['db_user'])."@'127.0.0.1'";
+    $paso = 'crear el usuario de Mercopan';
     $db->exec("CREATE USER IF NOT EXISTS $account IDENTIFIED BY ".$db->quote($cfg['db_pass']));
+    $paso = 'asignar permisos al usuario de Mercopan';
     $db->exec("GRANT SELECT, INSERT, UPDATE, DELETE ON `mercopan\\_comercial`.* TO $account");
+    $paso = 'probar la conexion del usuario de Mercopan';
     $app = new PDO($dsn.';dbname=mercopan_comercial',$cfg['db_user'],$cfg['db_pass']);
     $app->query('SELECT id FROM auditoria LIMIT 1');
     if (!rename($pending,$configPath)) throw new RuntimeException('No se pudo activar la configuracion. Volve a ejecutar el instalador.');
@@ -100,8 +110,23 @@ function instalar(): void {
     $db->exec("DROP TABLE mercopan_comercial.`$marker`");
     echo "Base de Mercopan creada. Entra a Administracion y crea el primer empleado.\n";
 }
-try { instalar(); }
+$paso = 'iniciar';
+try { instalar($paso); }
 catch (Throwable $e) {
-    fwrite(STDERR, ($e instanceof PDOException ? 'Error MySQL '.$e->getCode().'. Revisa el servicio, la clave root y los permisos.' : $e->getMessage())."\n");
+    $mensaje = $e->getMessage();
+    if ($e instanceof PDOException) {
+        $numero = $e->errorInfo[1] ?? $e->getCode();
+        // Los errores de sintaxis pueden reproducir SQL con credenciales.
+        $detalle = match ((int)$numero) {
+            1044, 1142, 1227 => 'La cuenta no tiene permisos suficientes para este paso.',
+            1045, 1698 => 'MariaDB rechazo la autenticacion de la cuenta.',
+            2002, 2003 => 'No se pudo conectar con el servicio en el puerto seleccionado.',
+            default => $paso === 'crear el usuario de Mercopan'
+                ? 'MariaDB rechazo la creacion de la cuenta.'
+                : ($e->errorInfo[2] ?? $mensaje),
+        };
+        $mensaje = "Error MySQL $numero al $paso. $detalle";
+    }
+    fwrite(STDERR, $mensaje."\n");
     exit(1);
 }
