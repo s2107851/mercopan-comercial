@@ -2,6 +2,32 @@
 declare(strict_types=1);
 if (PHP_SAPI !== 'cli') { http_response_code(404); exit; }
 
+function comprobarBaseExistente(PDO $db, string $schema): void {
+    $referencia = 'mp_revision_'.bin2hex(random_bytes(12));
+    $db->exec("CREATE DATABASE `$referencia` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+    try {
+        $import = $db->query(str_replace('mercopan_comercial', $referencia, $schema));
+        while ($import->nextRowset()) {}
+        $import->closeCursor();
+        $tablas = $db->query("SHOW TABLES FROM `$referencia`")->fetchAll(PDO::FETCH_COLUMN);
+        $actuales = $db->query('SHOW TABLES FROM mercopan_comercial')->fetchAll(PDO::FETCH_COLUMN);
+        sort($tablas);
+        sort($actuales);
+        if ($tablas !== $actuales) throw new RuntimeException('Las tablas existentes difieren del esquema Mercopan. Se requiere revision manual.');
+        foreach ($tablas as $tabla) {
+            $estructura = static function (string $base) use ($db, $tabla): string {
+                $ddl = $db->query("SHOW CREATE TABLE `$base`.`$tabla`")->fetch(PDO::FETCH_NUM)[1];
+                return preg_replace('/ AUTO_INCREMENT=[0-9]+/', '', $ddl);
+            };
+            if ($estructura($referencia) !== $estructura('mercopan_comercial')) {
+                throw new RuntimeException("La tabla $tabla difiere del esquema esperado. Se conservaron los datos.");
+            }
+        }
+    } finally {
+        $db->exec("DROP DATABASE `$referencia`");
+    }
+}
+
 function instalar(): void {
     $configPath = __DIR__.'/config.local.php';
     $pending = __DIR__.'/instalacion-pendiente.php';
@@ -28,12 +54,14 @@ function instalar(): void {
     if (!$schema) throw new RuntimeException('Falta el esquema SQL.');
     $exists = (bool)$db->query("SELECT 1 FROM information_schema.schemata WHERE schema_name='mercopan_comercial'")->fetchColumn();
     umask(0077);
-    if (!is_file($pending)) {
-        if ($exists) throw new RuntimeException('La base mercopan_comercial ya existe. Usa la configuracion manual para conectarla y conservar sus datos.');
+    $reanudar = is_file($pending);
+    if (!$reanudar) {
+        if ($exists) comprobarBaseExistente($db, $schema);
         $cfg = require __DIR__.'/config.local.example.php';
         $cfg['db_user'] = 'mp_'.bin2hex(random_bytes(8));
         $cfg['db_pass'] = bin2hex(random_bytes(24));
         $cfg['db_port'] = $port;
+        $cfg['reusar_base'] = $exists;
         $cfg['admin_password_hash'] = password_hash($admin,PASSWORD_DEFAULT);
         $data = "<?php\nreturn ".var_export($cfg,true).";\n";
         if (file_put_contents($pending,$data,LOCK_EX)!==strlen($data)) throw new RuntimeException('No se pudo guardar la configuracion provisional.');
@@ -42,7 +70,11 @@ function instalar(): void {
     if ($cfg['db_port']!==$port || !password_verify($admin,$cfg['admin_password_hash'])) throw new RuntimeException('Para reanudar, usa la clave de Mercopan y el puerto de la primera ejecucion.');
     $marker = 'inst_'.hash('sha256',$cfg['db_pass']);
     $marker = substr($marker,0,48);
-    if ($exists) {
+    $reusar = $cfg['reusar_base'] ?? false;
+    if ($reusar) {
+        if (!$exists) throw new RuntimeException('Ya no se encuentra la base que se iba a conectar.');
+        if ($reanudar) comprobarBaseExistente($db, $schema);
+    } elseif ($exists) {
         $q=$db->prepare("SELECT 1 FROM information_schema.tables WHERE table_schema='mercopan_comercial' AND table_name=?");
         $q->execute([$marker]);
         if (!$q->fetchColumn()) throw new RuntimeException('La base existente no pertenece a esta instalacion. Se requiere revision manual.');
@@ -50,15 +82,21 @@ function instalar(): void {
         $db->exec('CREATE DATABASE mercopan_comercial CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
         $db->exec("CREATE TABLE mercopan_comercial.`$marker` (id INT PRIMARY KEY) ENGINE=InnoDB");
     }
-    $import = $db->query($schema);
-    while ($import->nextRowset()) { /* Consumir todos los resultados del esquema. */ }
-    $import->closeCursor();
+    if (!$reusar) {
+        $import = $db->query($schema);
+        while ($import->nextRowset()) { /* Consumir todos los resultados del esquema. */ }
+        $import->closeCursor();
+    }
     $account=$db->quote($cfg['db_user'])."@'127.0.0.1'";
     $db->exec("CREATE USER IF NOT EXISTS $account IDENTIFIED BY ".$db->quote($cfg['db_pass']));
     $db->exec("GRANT SELECT, INSERT, UPDATE, DELETE ON `mercopan\\_comercial`.* TO $account");
     $app = new PDO($dsn.';dbname=mercopan_comercial',$cfg['db_user'],$cfg['db_pass']);
     $app->query('SELECT id FROM auditoria LIMIT 1');
     if (!rename($pending,$configPath)) throw new RuntimeException('No se pudo activar la configuracion. Volve a ejecutar el instalador.');
+    if ($reusar) {
+        echo "Base existente conectada. Podes abrir Administracion.\n";
+        return;
+    }
     $db->exec("DROP TABLE mercopan_comercial.`$marker`");
     echo "Base de Mercopan creada. Entra a Administracion y crea el primer empleado.\n";
 }
